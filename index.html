@@ -1,64 +1,127 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Tushar Verma</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-  </head>
-  <body>
-    <header>
-      <h1>Welcome to My Personal Website</h1>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tushar Verma - AI Researcher</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <h1>Tushar Verma</h1>
       <nav>
         <ul>
           <li><a href="#about-me">About Me</a></li>
-          <li><a href="#my-skills">My Skills</a></li>
-          <li><a href="#my-projects">My Projects</a></li>
+          <li><a href="#education">Education</a></li>
+          <li><a href="#experience">Experience</a></li>
+          <li><a href="#publications">Publications</a></li>
+          <li><a href="#skills">Skills</a></li>
           <li><a href="#contact-me">Contact Me</a></li>
         </ul>
       </nav>
-    </header>
-    <main>
-      <section id="about-me">
-        <h2>About Me</h2>
-        <p>I am an undergraduate junior pursuing my Bachelors in Electronics & Communication Engineering (Minors in Machine Learning & Signal Processing), with a humble interest in research, and a keen passion for scientific & creative pursuits. Looking forward to learning skills, with a vision to explore the amalgamations and blend of Technology & Science.
-</p>
-      </section>
-      <section id="my-skills">
-        <h2>My Skills</h2>
-        <ul>
-          <li>Programming Languages : C/C++,Python, Arduino, VHDL, HTML/CSS</li>
-          <li>Software packages : MATLAB, OpenCV, LTSpice, ECAD, LabVIEW</li>
-          <li>Operating Systems : MacOS, Linux</li>
-          <li>ML Frameworks : Pandas, NumPy, Matplotlib, TensorFlow, Scikit- Learn, Keras</li>
-          <li>Mathematics : Statistics & Probability, Linear Algebra, Calculus</li>
-        </ul>
-      </section>
-      <section id="my-projects">
-        <h2>My Projects</h2>
-        <ul>
-          <li><a href="#">AI for Healthcare : Diabetic Retinopathy </a></li>
-          <li><a href="#">Smart Garden </a></li>
-        </ul>
-      </section>
-      <section id="contact-me">
-        <h2>Email : tushar.verma.research@gmail.com</h2>
-        <form>
-          <label for="name">Name:</label>
-          <input type="text" id="name" name="name" required><br>
+    </div>
+  </header>
 
-          <label for="email">Email:</label>
-          <input type="email" id="email" name="email" required><br>
+  <main>
+    <section id="about-me" class="section">
+      <h2>About Me</h2>
+      <p>I am an undergraduate junior pursuing my Bachelors in Electronics & Communication Engineering (Minors in Machine Learning & Signal Processing), with a humble interest in research, and a keen passion for scientific & creative pursuits. Looking forward to learning skills, with a vision to explore the amalgamations and blend of Technology & Science.</p>
+    </section>
 
-          <label for="message">Message:</label>
-          <textarea id="message" name="message" required></textarea><br>
+    <section id="education" class="section">
+      <h2>Education</h2>
+      <div class="education-item">
+        <h3>B.Tech in ECE, Dual Minors (ML/SP)</h3>
+        <p>Netaji Subhas University of Technology (formerly NSIT), Dwarka, Delhi</p>
+        <p>2020 - 2024 | 8.73/10 (Dept. Rank 3)</p>
+      </div>
+      <div class="education-item">
+        <h3>XII (CBSE)</h3>
+        <p>Ahlcon Public School, Delhi</p>
+        <p>2019 | 90.25%</p>
+      </div>
+      <div class="education-item">
+        <h3>X (CBSE)</h3>
+        <p>Ryan International School, Noida</p>
+        <p>2017 | 10/10</p>
+      </div>
+    </section>
 
-          <button type="submit">Send</button>
-        </form>
-      </section>
-    </main>
-    <footer>
-      <p>&copy; 2023, Tushar Verma</p>
-    </footer>
-  </body>
+    <section id="experience" class="section">
+      <h2>Professional Experience</h2>
+      <div class="experience-item">
+        <h3>AI Research Engineer</h3>
+        <p>SuperAGI Research</p>
+        <p>Jan'24 - Present</p>
+        <div class="project-item">
+          <h4>SuperCoder 2.0: A World Class AI Pair-Programmer</h4>
+          <ul>
+            <li>Devised and implemented a five-phase workflow for an AI pair programmer to achieve autonomous software development</li>
+            <li>Integration of LLMs/LCMs fine-tuned for Python, ensuring high accuracy in functional coding</li>
+            <li>Designed and implemented an in-house language agnostic Indexer and Exploration agent using LSP and vector embedded ASTs to effectively index large codebases</li>
+            <li>Achieved a 34% score on SWE-Bench Lite, positioning it at Top #3 in the world, and #1 amongst the Open Source Autonomous Software Development Agent</li>
+          </ul>
+        </div>
+        <div class="project-item">
+          <h4>AUTONODE: A Neuro-Graphic Self Learnable Engine for Cognitive GUI Automation</h4>
+          <ul>
+            <li>Built Agentic Framework architectures advancing the use of autonomous AI agents and multi agent systems</li>
+            <li>Co-developed AUTONODE, a self-operating (web) navigation software for addressing cognitive Robotic Process Automation and complex dynamic information retrieval</li>
+            <li>Contributed to the design and development of DoRA, self-training module for AUTONODE</li>
+            <li>Integrated RAG, Parallelisation and Site-map pre-traversal modules into the base Large Action Model (LAM) of the framework</li>
+          </ul>
+        </div>
+        <div class="project-item">
+          <h4>VEagle, V-Zen: MultiModal Representation Learning & Knowledge Grounded Vision Models</h4>
+          <ul>
+            <li>Contributed to the design and development of the VEagle multimodal model, achieving state-of-the-art performance across major Visual Question Answering (VQA) benchmarks</li>
+            <li>Integrated a abstractor, Q-Former module and language model, along with architectural refinements and an additional projectional layer, to enhance VEagle's ability to interpret and connect textual and visual data, significantly boosting performance in multimodal tasks</li>
+            <li>Leveraged Veagle model with contextual grounding information for efficient GUI understanding, using DINO detector's capability for multimodal visual grounding</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="publications" class="section">
+      <h2>Publications</h2>
+      <ul>
+        <li>Verma, T., Singh, J., Bhartari, Y., Jarwal, R., Singh, S., & Singh, S. (2024). SOAR: Advancements in Small Body Object Detection for Aerial Imagery Using State Space Models and Programmable Gradients. arXiv preprint arXiv:2405.01699.</li>
+        <li>Datta, A., Verma, T., & Chawla, R. (2024). AUTONODE: A Neuro-Graphic Self-Learnable Engine for Cognitive GUI Automation. arXiv preprint arXiv:2403.10171, Accepted at ICAC 2024</li>
+        <li>Chawla, R., Datta, A., Verma, T., Jha, A., Gautam, A., Vatsal, A., ... & Bhola, I. (2024). Veagle: Advancements in Multimodal Representation Learning. arXiv preprint arXiv:2403.08773. Review awaited at ICPR 2024</li>
+      </ul>
+    </section>
+
+    <section id="skills" class="section">
+      <h2>Skills</h2>
+      <ul>
+        <li>Programming Languages: C/C++, Python, Arduino, VHDL, HTML/CSS</li>
+        <li>GPU Accelerated Computing: CuDNN & CUDA, Mosaic ML, DDP</li>
+        <li>ML Frameworks: TensorFlow, PyTorch, Sci-kit, Keras</li>
+        <li>Mathematics: Statistics & Probability, Linear Algebra, Calculus, Regression Analysis, Optimisation</li>
+        <li>Software Packages: MATLAB, LabVIEW, OpenCV, SPICE, ECAD</li>
+      </ul>
+    </section>
+
+    <section id="contact-me" class="section">
+      <h2>Contact Me</h2>
+      <form>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="message">Message:</label>
+        <textarea id="message" name="message" required></textarea>
+
+        <button type="submit">Send</button>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2023, Tushar Verma</p>
+  </footer>
+</body>
 </html>
