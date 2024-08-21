@@ -1,9 +1,10 @@
 /* Global styles */
-
 body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
+  color: #333;
+  background-color: #f8f8f8;
 }
 
 a {
@@ -18,13 +19,21 @@ ul {
 }
 
 /* Header styles */
-
 header {
-  background-color: #f2f2f2;
-  padding: 20px;
+  background-color: #333;
+  padding: 20px 0;
+}
+
+.header-content {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 header h1 {
+  color: #fff;
   margin: 0;
 }
 
@@ -41,15 +50,19 @@ header nav li:last-child {
 }
 
 header nav li a {
+  color: #fff;
   font-weight: bold;
 }
 
-/* Main content styles */
+header nav li a:hover {
+  color: #ccc;
+}
 
+/* Main content styles */
 main {
   max-width: 800px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 40px 20px;
 }
 
 section {
@@ -57,6 +70,25 @@ section {
 }
 
 h2 {
+  color: #333;
+  margin-top: 0;
+}
+
+.education-item, .experience-item {
+  margin-bottom: 30px;
+}
+
+.education-item h3, .experience-item h3 {
+  color: #555;
+  margin-top: 0;
+}
+
+.project-item {
+  margin-top: 20px;
+}
+
+.project-item h4 {
+  color: #777;
   margin-top: 0;
 }
 
@@ -67,15 +99,17 @@ ul li a:hover {
 form label {
   display: block;
   margin-bottom: 10px;
+  color: #555;
 }
 
 form input,
 form textarea {
   width: 100%;
   padding: 10px;
-  border: none;
+  border: 1px solid #ccc;
   border-radius: 5px;
   margin-bottom: 20px;
+  background-color: #f8f8f8;
 }
 
 form textarea {
@@ -96,7 +130,6 @@ form button:hover {
 }
 
 /* Footer styles */
-
 footer {
   background-color: #333;
   color: #fff;
