@@ -1,0 +1,18 @@
+# Playwright
+.playwright-mcp/
+
+# Debug screenshots
+screenshots/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Claude Code
+.claude/
