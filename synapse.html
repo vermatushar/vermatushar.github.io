@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Synapse: Unified Agent Runtime, Online Evaluations & Observability — Tushar Verma</title>
-  <meta name="description" content="Building an open agent runtime with first-class eval pipelines and trace-level observability — why the runtime layer is the right place to solve agent reliability.">
+  <meta name="description" content="Offline evals test the system as it was, not as it is. Why the runtime layer is the right place to solve agent reliability — and my take on building it with Synapse.">
   <meta property="og:title" content="Synapse: Unified Agent Runtime, Online Evaluations & Observability">
-  <meta property="og:description" content="Why the runtime layer is the right place to solve agent reliability.">
+  <meta property="og:description" content="Offline evals test the system as it was, not as it is. Why the runtime layer is the right place to solve agent reliability.">
   <meta property="og:type" content="article">
   <script>
     (function(){var t=localStorage.getItem('theme');if(t==='dark'||(!t&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.setAttribute('data-theme','dark')})();
@@ -58,128 +58,100 @@
 
       <article class="post-content">
 
-        <p>The agent ecosystem has a reliability problem. Not because models are bad at reasoning — they've gotten remarkably good. The problem is that <strong>the infrastructure between the model and the world is held together with duct tape</strong>. Prompt chains break silently. Tool calls fail without telemetry. Evaluations happen offline, days after a regression ships. And when something goes wrong in production, the debugging story is "grep through logs and pray."</p>
+        <p>Most agent frameworks solve the happy path: define agents, wire tools, ship. The hard problem isn't getting agents to run — it's knowing when they're failing in production. Your MMLU score is great. Your SWE-Bench rank is impressive. And your users are still getting hallucinated outputs at 2am while nobody notices.</p>
 
-        <p>Synapse is my attempt at fixing this — an open agent runtime that treats <strong>evaluation and observability as first-class primitives</strong>, not afterthoughts bolted onto an orchestration framework. The thesis is simple: the runtime layer is the right place to solve agent reliability, because the runtime is the only layer that sees everything.</p>
+        <p>This is the gap I've been living in — at Atomicwork, at SuperAGI, and now with <a href="https://github.com/vermatushar/synapse" target="_blank" rel="noopener">Synapse</a>. The thesis is simple: <strong>the runtime layer is the right place to solve agent reliability</strong>, because the runtime is the only layer that sees everything. Evaluation and observability aren't features you bolt on. They're primitives you build into the execution engine itself.</p>
 
-        <h2>The Problem with Today's Agent Stack</h2>
+        <h2>Offline Evals Are Necessary but Not Sufficient</h2>
 
-        <p>Most agent frameworks today — LangChain, CrewAI, AutoGen — focus on the happy path: define agents, wire them together, ship. The abstraction they offer is orchestration. But orchestration is a solved problem. What's unsolved is what happens when agents don't work, which is most of the time.</p>
+        <p>The standard playbook for agent quality goes something like: curate a golden dataset, run your agent against it, score the outputs, write a report. Repeat weekly. The problem, as <strong>Hamel Husain</strong> puts it bluntly, is that <em>the most important difference between CI evals and production evals is the data</em>. Your golden dataset is a snapshot. Your production traffic is a living thing that shifts daily — new edge cases, new user intents, new failure modes your test set never anticipated.</p>
 
-        <p>Here's what I've seen break repeatedly in production agent systems:</p>
+        <p><strong>Eugene Yan</strong> makes a related argument: teams cargo-cult LLM-as-judge thinking another metric will fix quality, but automated evaluators can't compensate for neglect. If you're not actively reviewing real outputs and real user feedback, no amount of automated scoring will save your product. Evals are a <em>practice</em> — a scientific method applied continuously — not an artifact you generate and file away.</p>
 
-        <ul>
-          <li><strong>Silent tool failures.</strong> An agent calls an API that returns a 429. The framework retries, gets a different error, and the agent hallucinates a response. Nobody notices for three days.</li>
-          <li><strong>Context contamination.</strong> Agent A's conversation state leaks into Agent B because they share a memory store without proper isolation. The system "works" but produces subtly wrong outputs.</li>
-          <li><strong>Evaluation drift.</strong> The team runs evals weekly on a golden dataset. But the prompts changed on Tuesday, the tool schemas changed on Thursday, and the evals on Friday are testing a system that no longer exists.</li>
-          <li><strong>Unobservable agent reasoning.</strong> An orchestrator spawns four sub-agents in parallel. One of them makes a bad tool call that cascades. The only log is "task failed." Good luck debugging that at 2am.</li>
-        </ul>
+        <p>This doesn't mean offline evals are useless. You should absolutely run comprehensive benchmarks before deploying. But offline evals have a fundamental limitation: <strong>they test the system as it was, not as it is</strong>. The prompts changed on Tuesday, the tool schemas changed on Thursday, and Friday's eval report is testing a system that no longer exists.</p>
 
-        <p>These aren't edge cases. They're the default experience of running agents in production. The common response is to build custom monitoring on top of whatever framework you're using. But that's solving the symptom, not the disease.</p>
+        <h2>The Case for Online Evaluation</h2>
 
-        <h2>Why the Runtime Layer</h2>
+        <p>Online evaluation means running classifiers and quality checks against production traffic continuously — not in a batch job, not on a cron, but as an integrated part of the agent execution lifecycle.</p>
 
-        <p>A runtime sits between the agent logic and the outside world — it manages execution, tool dispatch, memory, and inter-agent communication. This position gives it a unique vantage point: <strong>the runtime sees every input, every output, every tool call, every state transition, and every failure</strong>. No other layer in the stack has this visibility.</p>
-
-        <p>This is why I believe the runtime is where evaluation and observability belong. Not as plugins. Not as middleware. As core primitives that the runtime guarantees.</p>
-
-        <p>Think of it like this: you wouldn't bolt error handling onto a programming language as a library. You build it into the runtime (try/catch, Result types, panic handlers). Agent reliability deserves the same treatment.</p>
-
-        <h2>Synapse Architecture</h2>
-
-        <p>Synapse is designed around three pillars: <strong>execution</strong>, <strong>evaluation</strong>, and <strong>observability</strong>. They share the same data model and trace format, so they're not three systems stitched together — they're one system with three faces.</p>
-
-        <h3>1. Execution: Gateway-Based Agent Harness</h3>
-
-        <p>At the core of Synapse is a gateway-based execution model. Every agent runs in an isolated context — its own memory scope, its own tool namespace, its own model routing configuration. The gateway manages:</p>
+        <p>The idea isn't new. Traditional software has had production monitoring forever. But agent systems have unique properties that make standard APM inadequate:</p>
 
         <ul>
-          <li><strong>Context isolation.</strong> Each agent gets a scoped workspace. No shared mutable state unless explicitly configured. This eliminates an entire class of contamination bugs.</li>
-          <li><strong>Tool dispatch.</strong> Tools are exposed as single-purpose MCP servers. The runtime handles protocol negotiation, auth, rate limiting, and failure modes. Agents declare what tools they need; the runtime provides them.</li>
-          <li><strong>Workflow orchestration.</strong> Deterministic YAML workflows define how agents compose — sequential, parallel, conditional branching, subagent spawning. The workflow engine handles inter-agent state handoff with explicit schema contracts.</li>
-          <li><strong>Model routing.</strong> Different agents can use different models. The gateway routes each agent's inference calls to the appropriate model endpoint, with fallback chains and cost budgets.</li>
+          <li><strong>Non-determinism is the default.</strong> The same input produces different outputs across runs. You can't diff against a known-good response — you need semantic classifiers that understand intent.</li>
+          <li><strong>Failure is subtle.</strong> A hallucinated tool parameter doesn't throw an exception. A lazy response that skips half the user's question returns 200 OK. The system "works" in every way that traditional monitoring can detect.</li>
+          <li><strong>Quality is multi-dimensional.</strong> A single run can be factually correct but frustrating, or helpful but off-brand, or thorough but dangerously slow. You need multiple signals evaluated simultaneously.</li>
         </ul>
 
-        <p>The key design decision is that agents are <strong>composable but isolated</strong>. You can build a complex multi-agent system where each agent is independently testable, replaceable, and observable. The gateway is the single point of control.</p>
+        <p>This is where the runtime layer becomes critical. The runtime sits between the agent logic and the outside world — it manages execution, tool dispatch, and state. <strong>It sees every input, every output, every tool call, every reasoning step, and every failure.</strong> No other layer has this visibility. Not the orchestrator above it. Not the model provider below it.</p>
 
-        <h3>2. Online Evaluation Pipelines</h3>
+        <h2>What Synapse Does Differently</h2>
 
-        <p>This is where Synapse diverges most from existing frameworks. Traditional agent evaluation looks like this:</p>
+        <p>Synapse is a Python SDK (<code>synapse-agents</code>) that unifies agent execution, online evaluation, and experimentation into a single runtime. The key design choice: these aren't separate systems stitched together — they share the same data model, the same persistence layer, and the same execution context.</p>
 
-        <ol>
-          <li>Collect a dataset of inputs and expected outputs</li>
-          <li>Run your agent on the dataset</li>
-          <li>Score the outputs</li>
-          <li>Write a report</li>
-          <li>Realize the report is stale by the time anyone reads it</li>
-        </ol>
+        <h3>Execution with Durability Guarantees</h3>
 
-        <p>Synapse's approach is different. <strong>Evaluations run continuously, inline with production traffic.</strong> Here's how:</p>
+        <p>At the core is a ReAct execution loop with proper engineering around it. Agents define tools via a <code>@tool</code> decorator, the runtime handles parallel tool batching, and every run gets an idempotency fingerprint (SHA-256 of agent name + input) to prevent duplicate execution. Runs can be paused, resumed with new human input, or retried with prior conversation context — all with atomic state transitions that prevent race conditions.</p>
 
-        <p><strong>Trace-based eval triggers.</strong> Every agent execution produces a structured trace. Eval pipelines subscribe to these traces in real-time. When a trace matches a trigger condition (e.g., "this agent called the database tool"), the eval pipeline fires.</p>
+        <p>Multi-agent delegation uses a parent-child model with tighten-only depth limits — a child agent can never escalate beyond what its parent allows. This is a small thing that prevents an entire class of runaway-delegation bugs.</p>
 
-        <p><strong>Evaluator calibration.</strong> Automated evaluators (LLM-as-judge, rule-based checkers, embedding similarity) are calibrated against human annotations using a reference dataset. The calibration score is tracked over time. If an evaluator's agreement with humans drops below a threshold, it gets flagged.</p>
+        <p>The persistence layer makes a deliberate distinction between <strong>fail-closed</strong> operations (traces, tool calls, run events — these retry and propagate errors) and <strong>best-effort</strong> operations (usage stats, progress heartbeats — these swallow exceptions). Not every write is equally critical, and treating them the same is how you get cascading failures from a flaky database.</p>
 
-        <p><strong>Regression detection.</strong> Eval scores are tracked per-agent, per-tool, per-workflow. When a score drops below its rolling baseline, the system triggers an alert with the specific traces that caused the regression. No more "evals are red, figure out why."</p>
+        <h3>Signal-Based Online Evaluation</h3>
 
-        <p><strong>Shadow evaluation.</strong> You can run a new prompt or agent configuration in shadow mode — it sees real production inputs but doesn't affect outputs. The eval pipeline scores both the production and shadow paths, giving you a direct A/B comparison before you ship.</p>
+        <p>This is the part I'm most invested in. Every completed run flows through a <strong>MonitorPipeline</strong> that runs signal classifiers against the full execution trace — the user input, agent output, every reasoning step, every tool call and its result.</p>
 
-        <p>The goal is to make evaluation a <strong>continuous feedback loop</strong>, not a periodic checkpoint. When you change a prompt, you know within minutes whether it helped or hurt — not days.</p>
-
-        <h3>3. Trace-Level Observability</h3>
-
-        <p>Every agent execution in Synapse produces a <strong>structured trace</strong> — a tree of spans that captures the full execution path. This isn't just logging. It's a semantic representation of what the agent did, why, and what happened.</p>
-
-        <p>A trace captures:</p>
+        <p>Synapse ships with eight built-in classifiers:</p>
 
         <ul>
-          <li><strong>Agent reasoning steps</strong> — the model's chain-of-thought, tool selection rationale, and decision points</li>
-          <li><strong>Tool calls</strong> — request, response, latency, error state, retry count</li>
-          <li><strong>State transitions</strong> — memory reads/writes, context window changes, workflow branching decisions</li>
-          <li><strong>Inter-agent communication</strong> — handoff payloads, spawned subagent traces (nested as child spans)</li>
-          <li><strong>Evaluation results</strong> — inline eval scores attached to the relevant span</li>
+          <li><strong>Hallucination</strong> — detecting fabricated content not grounded in tool results or context</li>
+          <li><strong>Jailbreaking</strong> — catching prompt injection and boundary-testing attempts</li>
+          <li><strong>User frustration</strong> — recognizing when a user is struggling or getting a runaround</li>
+          <li><strong>Task failure</strong> — identifying runs where the agent didn't actually complete what was asked</li>
+          <li><strong>Laziness</strong> — flagging minimal-effort responses that technically answer but don't help</li>
+          <li><strong>Forgetting</strong> — detecting context loss across a conversation</li>
+          <li><strong>NSFW</strong> — content safety classification</li>
+          <li><strong>Wins</strong> — the positive signal, because you need to know what's working too</li>
         </ul>
 
-        <p>Traces are the unifying data model. Evals consume traces. Dashboards render traces. Alerts fire on trace patterns. Debugging starts with a trace ID and drills down. Everything is connected because everything speaks the same format.</p>
+        <p>Each classifier is exception-isolated — one failing classifier doesn't take down the pipeline. And the system supports custom classifiers, because every domain has failure modes that no generic tool can anticipate. Husain's advice about starting from manual review of real traces, then codifying what you find into automated checks — that's exactly the workflow this enables.</p>
 
-        <p>This is heavily inspired by distributed tracing in traditional systems (Jaeger, Zipkin, OpenTelemetry), adapted for the specific semantics of agent execution. The key difference is that agent traces are <strong>semantic, not just temporal</strong> — they capture what the agent was trying to do, not just what functions it called.</p>
+        <p>Signals feed into a rule-based alerting engine that can notify via Slack or webhooks. The loop closes: agent runs, signals fire, alerts deliver, humans review, classifiers get refined.</p>
 
-        <h2>Design Decisions and Trade-offs</h2>
+        <h3>Built-in Experimentation</h3>
 
-        <h3>YAML Workflows vs. Code-Defined Graphs</h3>
+        <p>The other piece that I think is undervalued in the agent ecosystem is proper A/B testing. Most teams evaluate prompt changes by vibes — "this version feels better." Synapse has a built-in experimentation engine with sticky variant assignment (deterministic hashing so users always see the same variant) and per-variant metrics: success rates, token consumption, cost, and signal frequency.</p>
 
-        <p>Synapse uses declarative YAML for workflow orchestration. This is a deliberate choice. Code-defined agent graphs (like LangGraph) are more flexible, but they're harder to version, harder to validate statically, and harder to visualize. YAML workflows can be linted, diffed, and rendered as DAGs. The trade-off is expressiveness — you can't embed arbitrary logic in a YAML node. But I've found that most multi-agent workflows are structurally simple (sequence, parallel fan-out, conditional routing). The complex logic lives inside agents, not between them.</p>
+        <p>This matters because, as teams at Statsig and Braintrust have documented, <strong>offline eval scores and online A/B results often diverge</strong>. A prompt that scores higher on your test set might perform worse in production because the test set doesn't represent the tail of real traffic. The only way to know is to measure both.</p>
 
-        <h3>MCP as the Tool Protocol</h3>
+        <h2>Why the Runtime Is the Right Abstraction</h2>
 
-        <p>Every tool integration in Synapse is an MCP server. MCP (Model Context Protocol) gives us a standard interface for tool discovery, invocation, and authentication. This means tools are hot-swappable, versionable, and testable in isolation. The downside is protocol overhead — an MCP call is heavier than a direct function call. But for production agent systems, the observability and isolation benefits far outweigh the latency cost.</p>
+        <p>You could build all of this as middleware on top of an existing framework. Plenty of teams do — a logging wrapper here, a webhook there, an eval script that runs nightly. But there's a reason this approach consistently fails to scale:</p>
 
-        <h3>Online Evals vs. Offline Evals</h3>
+        <p><strong>Middleware can only see what the framework exposes.</strong> If your orchestrator doesn't emit structured tool call results, your eval pipeline can't classify tool use quality. If your agent loop doesn't surface reasoning steps, your hallucination detector is working blind. You end up monkey-patching internals and parsing log strings — fragile, incomplete, and always one framework upgrade away from breaking.</p>
 
-        <p>Synapse doesn't replace offline evaluation — you should still run comprehensive evals on golden datasets before deploying. But offline evals have a fundamental limitation: they test the system as it was, not as it is. Online evals close that gap. The trade-off is compute cost. Running evaluators on every trace is expensive. Synapse handles this with sampling — you can configure what percentage of traces get evaluated, with smart sampling that over-indexes on novel patterns and error states.</p>
+        <p>The runtime doesn't have this problem because <strong>it is the framework</strong>. It owns execution, so it captures traces natively. It owns tool dispatch, so it records every call with full context. It owns state, so it can guarantee idempotent reruns and safe pause/resume. The OpenTelemetry community recognized this when they introduced semantic conventions specifically for GenAI spans — the insight being that agent execution has distinct observability needs that traditional APM can't model.</p>
 
-        <h2>What I'm Building Next</h2>
+        <p>Think of it like this: you wouldn't bolt error handling onto a programming language as a library. You build it into the runtime — try/catch, Result types, panic handlers. Agent reliability deserves the same treatment. The question isn't "should we monitor our agents?" It's "at what layer should monitoring live?"</p>
 
-        <p>Synapse is still early. The execution layer is stable and I've been using it internally for agent systems at work. The eval and observability layers are in active development. Here's what's on the roadmap:</p>
+        <h2>What I Got Wrong, and What's Next</h2>
 
-        <ul>
-          <li><strong>Eval DSL.</strong> A lightweight domain-specific language for defining evaluation criteria that's more expressive than config but less heavyweight than Python scripts.</li>
-          <li><strong>Trace replay.</strong> The ability to replay a production trace with modified agent configurations — essentially time-travel debugging for agents.</li>
-          <li><strong>Cost attribution.</strong> Per-agent, per-tool cost tracking that ties back to traces. Know exactly which agent in which workflow is burning your inference budget.</li>
-          <li><strong>Community evaluators.</strong> A registry of reusable eval modules (hallucination detection, tool-use accuracy, instruction following) that plug into the pipeline.</li>
-        </ul>
+        <p>Building Synapse has changed how I think about a few things. Early on, I assumed you'd want to evaluate every run. In practice, that's prohibitively expensive. The current approach uses queue-based processing with configurable concurrency — but smarter sampling (over-indexing on novel patterns and error states) is where the real leverage is.</p>
+
+        <p>I also underestimated how domain-specific failure modes are. The built-in classifiers cover common patterns, but the teams I've talked to always end up needing custom signals specific to their product. The classifier interface needs to be simple enough that writing a new one takes minutes, not hours.</p>
+
+        <p>What's next: better trace replay (rerun a production trace with modified configuration — time-travel debugging for agents), per-agent cost attribution tied back to traces, and tighter integration between the experimentation engine and the signal pipeline so you can automatically detect when a variant causes a spike in a specific failure mode.</p>
 
         <h2>Closing Thoughts</h2>
 
-        <p>The agent ecosystem is at an inflection point. We've proven that LLMs can reason, use tools, and coordinate. The next bottleneck isn't capability — it's reliability. And reliability is an infrastructure problem, not a model problem.</p>
+        <p>The agent ecosystem has gotten remarkably good at making agents <em>work</em>. What we haven't solved is knowing when they <em>don't</em> — and fixing it fast. That's an infrastructure problem, not a model problem.</p>
 
-        <p>Synapse is my bet that the right abstraction is a runtime that treats evaluation and observability as first-class concerns. Not because existing frameworks are bad, but because they were designed for a world where the hard part was getting agents to work at all. Now that agents work, the hard part is knowing <em>when they don't</em> — and fixing it fast.</p>
+        <p>Synapse is my bet that the right abstraction is a runtime that treats evaluation and observability as first-class concerns. Not because existing frameworks are bad, but because they were designed for a world where the hard part was getting agents to run at all. Now that agents run, the hard part is making them reliable.</p>
 
-        <p>If you're building agent systems and these problems resonate, I'd love to talk. Find me on <a href="https://x.com/kaylegue" target="_blank" rel="noopener">X</a> or <a href="mailto:tusharverma.research@gmail.com">email me</a>.</p>
+        <p>If you're building agent systems and these problems resonate, I'd love to hear what you're seeing. Find me on <a href="https://x.com/kaylegue" target="_blank" rel="noopener">X</a> or <a href="mailto:tusharverma.research@gmail.com">email me</a>.</p>
 
         <hr>
 
-        <p><em>Synapse is an open-source project. More details and code coming soon on <a href="https://github.com/synapse" target="_blank" rel="noopener">GitHub</a>.</em></p>
+        <p><em>Synapse is open-source under Apache 2.0. Code and docs on <a href="https://github.com/vermatushar/synapse" target="_blank" rel="noopener">GitHub</a>.</em></p>
 
       </article>
 
