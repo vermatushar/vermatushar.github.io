@@ -52,16 +52,14 @@
   var rotatingEl = document.getElementById('rotatingText');
   if (rotatingEl) {
     var phrases = [
-      'an AI researcher.',
-      'a builder of agentic systems.',
+      'an AI Research Engineer.',
       'a multi-agent systems builder.',
       'an agent runtime architect.',
+      'an applied AI researcher.',
       'an eval systems designer.',
       'a writer.'
     ];
     var idx = 0;
-
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     setInterval(function () {
       // Slide up and fade out
