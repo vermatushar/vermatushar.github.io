@@ -78,4 +78,73 @@
       }, 400);
     }, 3000);
   }
+
+  // ---- About fold ----
+  var aboutToggle = document.getElementById('aboutToggle');
+  var aboutIntro = document.getElementById('aboutIntro');
+
+  if (aboutToggle && aboutIntro) {
+    var aboutReduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function aboutFoldedHeight() {
+      if (window.matchMedia('(max-width: 640px)').matches) {
+        var body = aboutIntro.querySelector('.section-body');
+        var cs = window.getComputedStyle(body);
+        var line = parseFloat(cs.lineHeight);
+        if (!line || isNaN(line)) line = parseFloat(cs.fontSize) * 1.8;
+        return Math.round(line * 4.5);
+      }
+      return aboutToggle.offsetHeight;
+    }
+
+    function aboutSetOpen(open, animate) {
+      var full = aboutIntro.scrollHeight;
+      var fold = aboutFoldedHeight();
+      aboutIntro.classList.toggle('is-expanded', open);
+      aboutToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      aboutToggle.setAttribute('aria-label', open ? 'Hide full About' : 'Show full About');
+      if (aboutReduce || !animate) {
+        aboutIntro.style.transition = 'none';
+        aboutIntro.style.maxHeight = (open ? full : fold) + 'px';
+        void aboutIntro.offsetHeight;
+        aboutIntro.style.transition = '';
+      } else if (!open) {
+        aboutIntro.style.maxHeight = full + 'px';
+        void aboutIntro.offsetHeight;
+        aboutIntro.style.maxHeight = fold + 'px';
+      } else {
+        aboutIntro.style.maxHeight = full + 'px';
+      }
+    }
+
+    document.documentElement.classList.add('about-js');
+    aboutSetOpen(false, false);
+
+    aboutToggle.addEventListener('click', function () {
+      var open = aboutToggle.getAttribute('aria-expanded') === 'true';
+      aboutToggle.classList.remove('is-pulse');
+      void aboutToggle.offsetWidth;
+      aboutToggle.classList.add('is-pulse');
+      aboutSetOpen(!open, true);
+    });
+
+    aboutToggle.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        aboutToggle.click();
+      }
+    });
+
+    aboutToggle.addEventListener('animationend', function () {
+      aboutToggle.classList.remove('is-pulse');
+    });
+
+    var aboutResizeTimer;
+    window.addEventListener('resize', function () {
+      window.clearTimeout(aboutResizeTimer);
+      aboutResizeTimer = window.setTimeout(function () {
+        aboutSetOpen(aboutToggle.getAttribute('aria-expanded') === 'true', false);
+      }, 120);
+    });
+  }
 })();
