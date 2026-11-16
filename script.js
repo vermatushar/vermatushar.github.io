@@ -6,7 +6,13 @@
   var toggle = document.getElementById('themeToggle');
   var html = document.documentElement;
 
+  function syncThemePressed() {
+    if (!toggle) return;
+    toggle.setAttribute('aria-pressed', html.getAttribute('data-theme') === 'dark' ? 'true' : 'false');
+  }
+
   if (toggle) {
+    syncThemePressed();
     toggle.addEventListener('click', function (e) {
       e.stopPropagation();
       var isDark = html.getAttribute('data-theme') === 'dark';
@@ -17,6 +23,7 @@
         html.setAttribute('data-theme', 'dark');
         localStorage.setItem('theme', 'dark');
       }
+      syncThemePressed();
     });
   }
 
@@ -27,14 +34,16 @@
 
   if (navToggle && navRight) {
     navToggle.addEventListener('click', function () {
-      nav.classList.toggle('open');
+      var open = nav.classList.toggle('open');
       navRight.classList.toggle('active');
+      navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
     });
 
     navRight.querySelectorAll('a').forEach(function (link) {
       link.addEventListener('click', function () {
         nav.classList.remove('open');
         navRight.classList.remove('active');
+        navToggle.setAttribute('aria-expanded', 'false');
       });
     });
   }
@@ -43,14 +52,16 @@
   var rotatingEl = document.getElementById('rotatingText');
   if (rotatingEl) {
     var phrases = [
-      'an AI Research Engineer.',
+      'an AI researcher.',
+      'a builder of agentic systems.',
       'a multi-agent systems builder.',
       'an agent runtime architect.',
-      'an applied AI researcher.',
       'an eval systems designer.',
       'a writer.'
     ];
     var idx = 0;
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     setInterval(function () {
       // Slide up and fade out

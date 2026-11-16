@@ -5,9 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Synapse: Unified Agent Runtime, Online Evaluations & Observability — Tushar Verma</title>
   <meta name="description" content="Offline evals test the system as it was, not as it is. Why the runtime layer is the right place to solve agent reliability — and my take on building it with Synapse.">
+  <link rel="canonical" href="https://vermatushar.github.io/synapse.html">
   <meta property="og:title" content="Synapse: Unified Agent Runtime, Online Evaluations & Observability">
   <meta property="og:description" content="Offline evals test the system as it was, not as it is. Why the runtime layer is the right place to solve agent reliability.">
   <meta property="og:type" content="article">
+  <meta property="og:url" content="https://vermatushar.github.io/synapse.html">
+  <meta property="og:image" content="https://vermatushar.github.io/images/tushar.jpg">
+  <meta property="og:image:alt" content="Portrait of Tushar Verma">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Synapse: Unified Agent Runtime, Online Evaluations & Observability">
+  <meta name="twitter:description" content="Offline evals test the system as it was, not as it is. Why the runtime layer is the right place to solve agent reliability.">
+  <meta name="twitter:image" content="https://vermatushar.github.io/images/tushar.jpg">
   <script>
     (function(){var t=localStorage.getItem('theme');if(t==='dark'||(!t&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.setAttribute('data-theme','dark')})();
   </script>
@@ -19,21 +27,24 @@
 </head>
 <body>
 
+  <a class="skip-link" href="#main">Skip to content</a>
+
   <nav class="nav" id="nav">
     <div class="container nav-inner">
       <a href="index.html" class="nav-name">tushar verma</a>
-      <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span></button>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false" aria-controls="navRight"><span></span><span></span></button>
       <div class="nav-right" id="navRight">
         <div class="nav-links">
-          <a href="index.html" class="nav-link">About</a>
+          <a href="index.html#about" class="nav-link">About</a>
           <a href="work.html" class="nav-link">Work</a>
+          <a href="index.html#projects" class="nav-link">Projects</a>
           <a href="papers.html" class="nav-link">Papers</a>
-          <a href="blog.html" class="nav-link active">Blog</a>
+          <a href="blog.html" class="nav-link active" aria-current="page">Blog</a>
           <a href="index.html#contact" class="nav-link">Contact</a>
-          <a href="https://drive.google.com/file/d/1JkuyTVAzrKbCX_L8Yno0taPpgDlW3Zg1/view?usp=drivesdk" target="_blank" class="nav-link resume-link">Resume ↗</a>
+          <a href="https://drive.google.com/file/d/1JkuyTVAzrKbCX_L8Yno0taPpgDlW3Zg1/view?usp=drivesdk" target="_blank" rel="noopener" class="nav-link resume-link">Resume ↗</a>
         </div>
         <span class="nav-divider"></span>
-        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle color theme" aria-pressed="false">
           <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
           <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
         </button>
@@ -41,7 +52,7 @@
     </div>
   </nav>
 
-  <main class="main">
+  <main class="main" id="main">
     <div class="container">
 
       <header class="post-header">

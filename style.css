@@ -110,10 +110,10 @@ strong { font-weight: 600; color: var(--text); }
 }
 
 .nav-link {
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   font-weight: 500;
   color: var(--text-muted);
-  padding: 0.35rem 0.6rem;
+  padding: 0.35rem 0.42rem;
   border-radius: var(--radius);
   transition: color 0.2s, background 0.2s;
 }
@@ -311,6 +311,42 @@ strong { font-weight: 600; color: var(--text); }
 }
 
 .link-arrow:hover { gap: 0.5rem; }
+
+/* — SKIP LINK — */
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -48px;
+  z-index: 200;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0.4rem 0.75rem;
+  border-radius: var(--radius);
+}
+
+.skip-link:focus { top: 0.65rem; }
+[data-theme="dark"] .skip-link { color: #0a0a0a; }
+
+/* — ABOUT — */
+.about-layout {
+  display: grid;
+  grid-template-columns: 132px 1fr;
+  gap: 1.35rem;
+  align-items: start;
+}
+
+.about-photo {
+  width: 132px;
+  aspect-ratio: 1 / 1;
+  height: auto;
+  object-fit: cover;
+  object-position: center 15%;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg-alt);
+}
 
 /* — SECTIONS — */
 .section {
@@ -621,6 +657,24 @@ strong { font-weight: 600; color: var(--text); }
   line-height: 1.55;
 }
 
+.side-project p a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 2px;
+  transition: text-decoration-color 0.2s;
+}
+
+.side-project p a:hover { text-decoration-color: var(--accent); }
+
+.blog-more {
+  margin-top: 2.5rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.blog-more a { color: var(--accent); }
+
 /* — PAPERS PAGE — */
 .paper-full {
   display: grid;
@@ -657,6 +711,13 @@ strong { font-weight: 600; color: var(--text); }
 }
 
 .paper-full-authors strong { color: var(--accent); }
+
+.paper-summary {
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: var(--text-secondary);
+  margin: -0.15rem 0 0.75rem;
+}
 
 .paper-full-links {
   display: flex;
@@ -963,8 +1024,18 @@ strong { font-weight: 600; color: var(--text); }
   .highlight-top { flex-direction: column; gap: 0.1rem; }
   .exp-top { flex-direction: column; gap: 0.15rem; }
 
-  .paper-row { flex-direction: column; gap: 0.15rem; }
-  .paper-arrow { display: none; }
+  .paper-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.2rem;
+  }
+
+  .about-layout {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .about-photo { width: 112px; }
 
   .paper-full {
     grid-template-columns: 1fr;

@@ -3,12 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tushar Verma — AI Research Engineer</title>
-  <meta name="description" content="AI Research Engineer building multi-agent runtimes, evaluation systems, and agent infrastructure. Currently at Atomicwork.">
-  <meta property="og:title" content="Tushar Verma — AI Research Engineer">
-  <meta property="og:description" content="Building the infrastructure for autonomous AI — multi-agent runtimes, evaluation systems, and agent coordination.">
+  <title>Tushar Verma — AI Researcher</title>
+  <meta name="description" content="Tushar Verma is an AI researcher and builder of agentic systems, based in Bengaluru. Sr. AI Engineer at Korza.">
+  <meta name="author" content="Tushar Verma">
+  <link rel="canonical" href="https://vermatushar.github.io/">
+  <meta property="og:title" content="Tushar Verma — AI Researcher">
+  <meta property="og:description" content="AI researcher and builder of agentic systems, based in Bengaluru. Sr. AI Engineer at Korza.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://vermatushar.github.io">
+  <meta property="og:url" content="https://vermatushar.github.io/">
+  <meta property="og:image" content="https://vermatushar.github.io/images/tushar.jpg">
+  <meta property="og:image:alt" content="Portrait of Tushar Verma">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Tushar Verma — AI Researcher">
+  <meta name="twitter:description" content="AI researcher and builder of agentic systems, based in Bengaluru. Sr. AI Engineer at Korza.">
+  <meta name="twitter:image" content="https://vermatushar.github.io/images/tushar.jpg">
   <script>
     (function(){var t=localStorage.getItem('theme');if(t==='dark'||(!t&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.setAttribute('data-theme','dark')})();
   </script>
@@ -20,21 +28,24 @@
 </head>
 <body>
 
+  <a class="skip-link" href="#main">Skip to content</a>
+
   <nav class="nav" id="nav">
     <div class="container nav-inner">
       <a href="index.html" class="nav-name">tushar verma</a>
-      <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span></button>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false" aria-controls="navRight"><span></span><span></span></button>
       <div class="nav-right" id="navRight">
         <div class="nav-links">
-          <a href="index.html" class="nav-link active">About</a>
+          <a href="index.html#about" class="nav-link active" aria-current="page">About</a>
           <a href="work.html" class="nav-link">Work</a>
+          <a href="index.html#projects" class="nav-link">Projects</a>
           <a href="papers.html" class="nav-link">Papers</a>
           <a href="blog.html" class="nav-link">Blog</a>
           <a href="index.html#contact" class="nav-link">Contact</a>
-          <a href="https://drive.google.com/file/d/1JkuyTVAzrKbCX_L8Yno0taPpgDlW3Zg1/view?usp=drivesdk" target="_blank" class="nav-link resume-link">Resume ↗</a>
+          <a href="https://drive.google.com/file/d/1JkuyTVAzrKbCX_L8Yno0taPpgDlW3Zg1/view?usp=drivesdk" target="_blank" rel="noopener" class="nav-link resume-link">Resume ↗</a>
         </div>
         <span class="nav-divider"></span>
-        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle color theme" aria-pressed="false">
           <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
           <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
         </button>
@@ -42,30 +53,35 @@
     </div>
   </nav>
 
-  <main class="main">
+  <main class="main" id="main">
     <div class="container">
 
       <!-- Hero with rotating text -->
       <section class="hero">
         <h1 class="hero-title">
           Hi, I'm Tushar,<br>
-          <span class="rotating-text" id="rotatingText">an AI Research Engineer.</span>
+          <span class="rotating-text" id="rotatingText">an AI researcher.</span>
         </h1>
-        <p class="hero-intro">I build the infrastructure for autonomous AI — multi-agent runtimes, evaluation systems, and the coordination layer that makes agents reliable. Currently at <a href="https://www.atomicwork.com" target="_blank" rel="noopener">Atomicwork</a>.</p>
+        <p class="hero-intro">I build the infrastructure for autonomous AI — multi-agent runtimes, evaluation systems, and the coordination layer that makes agents reliable. Currently a Sr. AI Engineer at <a href="https://www.korza.com" target="_blank" rel="noopener">Korza</a>.</p>
         <div class="hero-actions">
           <a href="mailto:tusharverma.research@gmail.com" class="btn-primary">Get in touch →</a>
-          <a href="https://drive.google.com/file/d/1JkuyTVAzrKbCX_L8Yno0taPpgDlW3Zg1/view?usp=drivesdk" target="_blank" class="btn-outline">Resume ↗</a>
+          <a href="https://drive.google.com/file/d/1JkuyTVAzrKbCX_L8Yno0taPpgDlW3Zg1/view?usp=drivesdk" target="_blank" rel="noopener" class="btn-outline">Resume ↗</a>
         </div>
       </section>
 
       <!-- About -->
       <section class="section" id="about">
         <h2 class="section-label">About</h2>
-        <div class="section-body">
-          <p>I'm an AI Research Engineer at <a href="https://www.atomicwork.com" target="_blank" rel="noopener">Atomicwork</a>, where I built the multi-agent runtime powering our agentic service management product — a Gateway-based harness with per-agent context isolation, MCP server integrations, YAML workflow orchestration, and subagent spawning.</p>
-          <p>The core problems I live in: <strong>stateful multi-agent coordination</strong>, <strong>domain-specific agent evaluation</strong>, and <strong>code agent harness design</strong>. Before Atomicwork, I was at <strong>SuperAGI Research</strong> building autonomous coding agents (<a href="https://github.com/TransformerOptimus/SuperCoder" target="_blank" rel="noopener">SuperCoder 2.0</a> — #1 open-source on SWE-Bench), cognitive GUI automation (<a href="https://github.com/TransformerOptimus/AutoNode" target="_blank" rel="noopener">AUTONODE</a>), and multi-agent orchestration frameworks.</p>
-          <p>I studied ECE at <strong>Netaji Subhas University of Technology</strong> (Delhi), graduating with dual minors in ML and Signal Processing, ranked 3rd in my department. I've also done research stints at <strong>ISRO</strong> and <strong>NTNU Norway</strong>.</p>
-          <p>Outside of work, I write — poetry, prose, and the occasional piece on things that aren't code.</p>
+        <div class="about-layout">
+          <picture>
+            <source srcset="images/tushar.webp" type="image/webp">
+            <img class="about-photo" src="images/tushar.jpg" width="200" height="200" alt="Portrait of Tushar Verma, wearing a denim jacket and cream hoodie, in front of bookshelves">
+          </picture>
+          <div class="section-body">
+            <p>I'm an AI researcher and a builder of agentic systems, based in Bengaluru. I'm a Sr. AI Engineer at <a href="https://www.korza.com" target="_blank" rel="noopener">Korza</a>, an AI services company for mid-sized businesses.</p>
+            <p>I studied electronics and communication engineering at <strong>Netaji Subhas University of Technology</strong> (2020–2024). I co-authored <a href="https://arxiv.org/abs/2403.10171" target="_blank" rel="noopener">AutoNode</a>, on cognitive GUI automation, with SuperAGI, and <a href="https://arxiv.org/abs/2405.01699" target="_blank" rel="noopener">SOAR</a>, on small-object detection in aerial imagery.</p>
+            <p>I also write about LLM inference engineering — prefill and decode, and disaggregation.</p>
+          </div>
         </div>
       </section>
 
@@ -73,13 +89,14 @@
       <section class="section" id="current">
         <h2 class="section-label">Currently Working On</h2>
         <div class="section-body">
-          <p>Building <a href="https://github.com/vermatushar/synapse" target="_blank" rel="noopener">Synapse</a> — a unified agent runtime with online evaluation pipelines and built-in observability. Also exploring RL-enforced recommendations for a stealth project.</p>
+          <p>At <a href="https://www.korza.com" target="_blank" rel="noopener">Korza</a>, an MCP authorization gateway for agent identity — registration, authentication, credential lifecycle, and Policy Assist, which turns natural-language intents into Cedar policies. Also building <a href="https://github.com/vermatushar/synapse" target="_blank" rel="noopener">Synapse</a>, a unified agent runtime with online evaluation pipelines and built-in observability, and exploring RL-enforced recommendations for a stealth project.</p>
         </div>
         <div class="tags">
+          <span class="tag">MCP Gateway</span>
+          <span class="tag">Agent Identity</span>
           <span class="tag">Agent Runtime</span>
           <span class="tag">Online Evaluations</span>
           <span class="tag">Observability</span>
-          <span class="tag">RL Recommendations</span>
         </div>
       </section>
 
@@ -87,6 +104,13 @@
       <section class="section">
         <h2 class="section-label">Highlights</h2>
         <div>
+          <a href="work.html#korza" class="highlight-row">
+            <div class="highlight-top">
+              <h3>MCP Gateway: RSA AgentID</h3>
+              <span class="highlight-meta">Korza · 2026</span>
+            </div>
+            <p>Agent identity and authorization for enterprise AI. ~34 ms p95 gateway overhead, 15–21% lower end-to-end latency, and up to 34% lower upstream forwarding latency.</p>
+          </a>
           <a href="work.html#atomicwork" class="highlight-row">
             <div class="highlight-top">
               <h3>Atom Agent Harness</h3>
@@ -112,10 +136,57 @@
         <a href="work.html" class="link-arrow" style="margin-top: 1.25rem;">All work →</a>
       </section>
 
+      <!-- Projects -->
+      <section class="section" id="projects">
+        <h2 class="section-label">Projects</h2>
+        <div>
+          <a href="https://github.com/vermatushar/Lenora" target="_blank" rel="noopener" class="highlight-row">
+            <div class="highlight-top">
+              <h3>Lenora</h3>
+              <span class="highlight-meta">Swift · 2026</span>
+            </div>
+            <p>An open-source, agent-native Mac video editor. Edit by hand, or an agent cuts and generates on the real timeline — in the app, or from Claude Code, Cursor, Codex, or Claude Desktop over MCP. Cloudinary handles uploads, transforms, background removal, generative edits, image-to-video, and publishing. Built-in backend and release DMG shipped October 2026, for HackIndia × Cloudinary.</p>
+          </a>
+          <a href="https://github.com/vermatushar/synapse" target="_blank" rel="noopener" class="highlight-row">
+            <div class="highlight-top">
+              <h3>Synapse</h3>
+              <span class="highlight-meta">Python · 2026</span>
+            </div>
+            <p>Unified agent runtime and monitoring platform. Build AI agents, orchestrate multi-agent workflows, and monitor everything with built-in signal detection, semantic search, experiments, and a real-time dashboard.</p>
+          </a>
+          <a href="https://github.com/vermatushar/ai-uno" target="_blank" rel="noopener" class="highlight-row">
+            <div class="highlight-top">
+              <h3>ai-uno</h3>
+              <span class="highlight-meta">Python · 2026</span>
+            </div>
+            <p>A retrieval-augmented generation pipeline for email question answering, built without an end-to-end RAG framework. Published eval: Recall@5 1.0000, answer accuracy 0.9333, hallucination rate 0.0400.</p>
+          </a>
+          <a href="https://github.com/vermatushar/meta-qa" target="_blank" rel="noopener" class="highlight-row">
+            <div class="highlight-top">
+              <h3>meta-qa</h3>
+              <span class="highlight-meta">Python · 2026</span>
+            </div>
+            <p>An automated survey quality-assurance system. A multi-agent pipeline parses a PRD, plans test paths, executes browser tests through a pluggable executor, and verifies the bugs it finds.</p>
+          </a>
+          <a href="https://github.com/vermatushar/Waffle-Timer" target="_blank" rel="noopener" class="highlight-row">
+            <div class="highlight-top">
+              <h3>Waffle Timer</h3>
+              <span class="highlight-meta">TypeScript · 2025</span>
+            </div>
+            <p>A floating Pomodoro timer for macOS, Windows, and Linux: a translucent always-on-top widget with to-dos, sticky notes, and a completion chime.</p>
+          </a>
+        </div>
+      </section>
+
       <!-- Papers -->
       <section class="section">
         <h2 class="section-label">Papers</h2>
         <div>
+          <a href="https://arxiv.org/abs/2609.31749" target="_blank" rel="noopener" class="paper-row">
+            <span class="paper-year">2026</span>
+            <span class="paper-name">Fusion Under Component Failure: Negative Results and Failure Modes in Ensemble AI-Generated Image Detection</span>
+            <span class="paper-arrow">arXiv →</span>
+          </a>
           <a href="https://arxiv.org/abs/2405.01699" target="_blank" rel="noopener" class="paper-row">
             <span class="paper-year">2024</span>
             <span class="paper-name">SOAR: Small Body Object Detection for Aerial Imagery Using State Space Models</span>
