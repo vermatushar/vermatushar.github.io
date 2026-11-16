@@ -4,7 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Work — Tushar Verma</title>
-  <meta name="description" content="Professional experience and research projects by Tushar Verma.">
+  <meta name="description" content="Professional experience of Tushar Verma, Sr. AI Engineer at Korza, previously at Atomicwork and SuperAGI.">
+  <link rel="canonical" href="https://vermatushar.github.io/work.html">
+  <meta property="og:title" content="Work — Tushar Verma">
+  <meta property="og:description" content="Professional experience of Tushar Verma, Sr. AI Engineer at Korza, previously at Atomicwork and SuperAGI.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://vermatushar.github.io/work.html">
+  <meta property="og:image" content="https://vermatushar.github.io/images/og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Tushar Verma, AI researcher and Sr. AI Engineer at Korza">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Work — Tushar Verma">
+  <meta name="twitter:description" content="Professional experience of Tushar Verma, Sr. AI Engineer at Korza.">
+  <meta name="twitter:image" content="https://vermatushar.github.io/images/og.jpg">
   <script>
     (function(){var t=localStorage.getItem('theme');if(t==='dark'||(!t&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.setAttribute('data-theme','dark')})();
   </script>
@@ -16,21 +29,24 @@
 </head>
 <body>
 
+  <a class="skip-link" href="#main">Skip to content</a>
+
   <nav class="nav" id="nav">
     <div class="container nav-inner">
       <a href="index.html" class="nav-name">tushar verma</a>
-      <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span></button>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false" aria-controls="navRight"><span></span><span></span></button>
       <div class="nav-right" id="navRight">
         <div class="nav-links">
-          <a href="index.html" class="nav-link">About</a>
-          <a href="work.html" class="nav-link active">Work</a>
+          <a href="index.html#about" class="nav-link">About</a>
+          <a href="work.html" class="nav-link active" aria-current="page">Work</a>
+          <a href="index.html#projects" class="nav-link">Projects</a>
           <a href="papers.html" class="nav-link">Papers</a>
           <a href="blog.html" class="nav-link">Blog</a>
           <a href="index.html#contact" class="nav-link">Contact</a>
-          <a href="https://drive.google.com/file/d/1JkuyTVAzrKbCX_L8Yno0taPpgDlW3Zg1/view?usp=drivesdk" target="_blank" class="nav-link resume-link">Resume ↗</a>
+          <a href="https://drive.google.com/file/d/1JkuyTVAzrKbCX_L8Yno0taPpgDlW3Zg1/view?usp=drivesdk" target="_blank" rel="noopener" class="nav-link resume-link">Resume ↗</a>
         </div>
         <span class="nav-divider"></span>
-        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle color theme" aria-pressed="false">
           <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
           <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
         </button>
@@ -38,7 +54,7 @@
     </div>
   </nav>
 
-  <main class="main">
+  <main class="main" id="main">
     <div class="container">
 
       <header class="page-header">
@@ -48,13 +64,41 @@
 
       <div class="exp-list">
 
+        <article class="exp" id="korza">
+          <div class="exp-top">
+            <div>
+              <h2 class="exp-org"><a href="https://www.korza.com" target="_blank" rel="noopener">Korza</a></h2>
+              <p class="exp-role">Sr. AI Engineer</p>
+            </div>
+            <time class="exp-date">May 2026 — Present</time>
+          </div>
+          <div class="exp-block">
+            <h3>MCP Gateway: RSA AgentID (Agent Identity &amp; Authorization Gateway)</h3>
+            <ul>
+              <li>Architected agent identity and authorization capabilities for enterprise AI systems, supporting secure agent registration, authentication, and credential management. Built an MCP Authorization Gateway supporting enterprise IdPs, agent onboarding, auditing, tool calls, HITL, and secure credential lifecycle management.</li>
+              <li>Engineered performance evaluation and optimization for enterprise agent gateways, achieving ~34 ms p95 gateway overhead.</li>
+              <li>Optimized gateway execution, caching, and authorization pipelines, reducing end-to-end latency by 15–21% and upstream forwarding latency by up to 34%.</li>
+              <li>Developed Policy Assist, a provider-agnostic LLM integration supporting validated policy generation and enabling users to translate natural-language intents into executable Cedar authorization policies.</li>
+              <li>Developed an enterprise audit system providing visibility into agent activity, authorization decisions, and policy evaluations. Integrated structured logging, telemetry, and centralized observability across gateway services, with Azure-based monitoring and operational insights.</li>
+              <li>Strengthened enterprise database security and gateway lifecycle management, including automated deletion and operational recovery capabilities.</li>
+            </ul>
+          </div>
+          <div class="exp-block">
+            <h3>I-MED Voicebot: Evals for a Healthcare Voice Agent</h3>
+            <ul>
+              <li>Designed the evaluation architecture for an LLM-powered healthcare appointment-booking voice agent, incorporating agent traces, live and synthetic datasets, and LLM-based evaluation of action adherence and conversational tone.</li>
+              <li>Defined evaluation metrics aligned with I-MED's &lt;1% false-booking requirement, covering handoff classification, retrieval-error identification, and reproducible evaluation runs.</li>
+            </ul>
+          </div>
+        </article>
+
         <article class="exp" id="atomicwork">
           <div class="exp-top">
             <div>
               <h2 class="exp-org"><a href="https://www.atomicwork.com" target="_blank" rel="noopener">Atomicwork</a></h2>
               <p class="exp-role">AI Research Engineer</p>
             </div>
-            <time class="exp-date">Jan 2025 — Present</time>
+            <time class="exp-date">Jan 2025 — Jun 2026</time>
           </div>
           <div class="exp-block">
             <h3>Atom: Universal Agentic Service Management</h3>
@@ -158,7 +202,7 @@
           </div>
           <div class="side-project">
             <h3><a href="https://arxiv.org/abs/2405.01699" target="_blank" rel="noopener">SOAR: Aerial Imagery Detection</a></h3>
-            <p>Fine-tuning State Space Models with programmable gradients for small-body object detection in aerial imagery.</p>
+            <p>Fine-tuning State Space Models with programmable gradients for small-body object detection in aerial imagery. <a href="https://github.com/yash2629/S.O.A.R" target="_blank" rel="noopener">Code repository</a>.</p>
           </div>
         </div>
       </section>
