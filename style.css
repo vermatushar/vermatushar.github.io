@@ -332,17 +332,17 @@ strong { font-weight: 600; color: var(--text); }
 /* — ABOUT — */
 .about-layout {
   display: grid;
-  grid-template-columns: 132px 1fr;
+  grid-template-columns: 148px 1fr;
   gap: 1.35rem;
   align-items: start;
 }
 
 .about-photo {
-  width: 132px;
-  aspect-ratio: 1 / 1;
+  width: 148px;
+  aspect-ratio: 600 / 796;
   height: auto;
   object-fit: cover;
-  object-position: center 15%;
+  object-position: center 18%;
   border-radius: 10px;
   border: 1px solid var(--border);
   background: var(--bg-alt);
@@ -1035,7 +1035,7 @@ strong { font-weight: 600; color: var(--text); }
     gap: 1rem;
   }
 
-  .about-photo { width: 112px; }
+  .about-photo { width: 120px; }
 
   .paper-full {
     grid-template-columns: 1fr;
